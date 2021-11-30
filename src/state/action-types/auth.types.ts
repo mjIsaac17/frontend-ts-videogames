@@ -9,6 +9,7 @@ export enum AuthTypes {
 export type UserType = {
   id: string;
   name: string;
+  email: string;
   roleId: string;
 };
 

@@ -2,10 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import reportWebVitals from "./reportWebVitals";
+import VideogamesApp from "./VideogamesApp";
 
 ReactDOM.render(
-  <React.StrictMode></React.StrictMode>,
+  <React.StrictMode>
+    <VideogamesApp />
+  </React.StrictMode>,
   document.getElementById("root")
 );
 

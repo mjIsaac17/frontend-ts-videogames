@@ -2,7 +2,7 @@ import {
   AuthDispathTypes,
   AuthTypes,
   AuthState,
-} from "../action-types/login.types";
+} from "../action-types/auth.types";
 
 const defaultState: AuthState = {
   loading: false,
