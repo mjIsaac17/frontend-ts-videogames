@@ -1,14 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 import HomeScreen from "../components/home/HomeScreen";
+import NavBar from "../components/navbar/NavBar";
 
 const DashboardRouter = () => {
   return (
-    <div>
-      <Routes>
+    <Routes>
+      <Route element={<NavBar />}>
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/" element={<HomeScreen />} />
-      </Routes>
-    </div>
+      </Route>
+    </Routes>
   );
 };
 

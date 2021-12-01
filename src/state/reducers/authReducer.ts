@@ -2,11 +2,14 @@ import {
   AuthDispathTypes,
   AuthTypes,
   AuthState,
+  AuthType,
 } from "../action-types/auth.types";
 
 const defaultState: AuthState = {
   loading: false,
-  auth: null,
+  auth: localStorage.getItem("auth")
+    ? (JSON.parse(localStorage.getItem("auth") || "{}") as AuthType)
+    : null,
 };
 
 const authReducer = (
