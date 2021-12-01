@@ -5,7 +5,7 @@ import {
   AuthType,
   AuthTypes,
 } from "../action-types/auth.types";
-import { httpPost } from "../../helpers/httpRequests";
+import { httpRequest } from "../../helpers/httpRequests";
 
 import { toast } from "react-toastify";
 
@@ -15,7 +15,7 @@ const saveAuthInLocalStorage = (auth: AuthType) => {
 
 export const startLogin = (email: string, password: string) => {
   return async (dispatch: Dispatch<AuthDispathTypes>) => {
-    const { data } = await httpPost("auth", { email, password });
+    const { data } = await httpRequest("auth", "POST", { email, password });
 
     if (data.error) toast.error(data.error);
     else {
@@ -34,7 +34,11 @@ export const startRegister = (
   password: string
 ) => {
   return async (dispatch: Dispatch<AuthDispathTypes>) => {
-    const { data } = await httpPost("user", { name, email, password });
+    const { data } = await httpRequest("user", "POST", {
+      name,
+      email,
+      password,
+    });
 
     if (data.error) toast.error(data.error);
     else {

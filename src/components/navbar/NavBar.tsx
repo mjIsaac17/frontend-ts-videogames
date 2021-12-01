@@ -1,7 +1,11 @@
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router";
+import { RootStore } from "../../state/reducers/rootReducer";
 
 const NavBar = () => {
+  const { auth } = useSelector((state: RootStore) => state.auth);
+
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="secondary" variant="dark">
@@ -27,10 +31,8 @@ const NavBar = () => {
               </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link href="#deets">More deets</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
-                Dank memes
-              </Nav.Link>
+              <Nav.Link href="#deets">{auth?.user.name}</Nav.Link>
+              <Nav.Link href="#memes">Sign Out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

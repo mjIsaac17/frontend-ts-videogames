@@ -1,0 +1,23 @@
+.card {
+}
+
+.card--sm {
+  max-width: 22rem;
+  height: 20rem;
+}
+.card--landscape {
+  max-width: 80rem;
+  height: 10rem;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.65);
+  height: 100%;
+  width: 100%;
+}
+
+.card img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
