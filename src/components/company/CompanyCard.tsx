@@ -9,7 +9,7 @@ const CompanyCard = ({ company }: { company: CompanyType }) => {
         src={`data:${company.imageType};base64,${company.image}`}
         alt="Card image"
       />
-      <Card.ImgOverlay className="overlay">
+      <Card.ImgOverlay className="card-overlay">
         <Card.Title>{company.name}</Card.Title>
         <Card.Text>{company.description}</Card.Text>
       </Card.ImgOverlay>

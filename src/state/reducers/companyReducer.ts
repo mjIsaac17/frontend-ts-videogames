@@ -16,10 +16,11 @@ const companyReducer = (
   switch (action.type) {
     case CompanyTypes.SUCCESS_GET_COMPANIES:
       return {
+        ...state,
         loading: false,
         companies: action.payload.companies,
       };
-    case CompanyTypes.FAILURE_ACTION:
+    case CompanyTypes.COMPANY_FAILURE_ACTION:
       return {
         loading: false,
         companies: [],

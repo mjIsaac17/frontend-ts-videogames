@@ -14,6 +14,7 @@ export const httpRequestToken = (
   endpoint: string,
   method: Method,
   authToken: string,
+  queryParams?: Object,
   data?: any
 ) => {
   const url = `${baseUrl}/${endpoint}`;
@@ -24,7 +25,9 @@ export const httpRequestToken = (
     [tokenKey]: authToken,
   };
 
-  return axios({ method, url, headers, data }).catch((error) => {
-    return error.response;
-  });
+  return axios({ method, url, headers, data, params: queryParams }).catch(
+    (error) => {
+      return error.response;
+    }
+  );
 };

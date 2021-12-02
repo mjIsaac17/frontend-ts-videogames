@@ -12,11 +12,11 @@ import {
 } from "../action-types/company.types";
 
 const failureAction = (error: string): ICompanyFailure => ({
-  type: CompanyTypes.FAILURE_ACTION,
+  type: CompanyTypes.COMPANY_FAILURE_ACTION,
   payload: { error },
 });
 
-export const companyStartGettingAll = () => {
+export const companyStartGettingAll = (limit?: number, page?: number) => {
   return async (
     dispatch: Dispatch<CompanyDispathTypes>,
     getState: () => RootStore
@@ -25,7 +25,8 @@ export const companyStartGettingAll = () => {
     const { data } = await httpRequestToken(
       "company",
       "GET",
-      auth.auth?.authToken || ""
+      auth.auth?.authToken || "",
+      { limit, page }
     );
 
     if (data.error) {

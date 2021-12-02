@@ -1,10 +1,10 @@
-/** Auth key types */
+/** Company key types */
 export enum CompanyTypes {
-  SUCCESS_GET_COMPANIES = "SUCCESS_GET_ALL",
-  FAILURE_ACTION = "FAILURE_ACTION",
+  SUCCESS_GET_COMPANIES = "SUCCESS_GET_COMPANIES",
+  COMPANY_FAILURE_ACTION = "COMPANY_FAILURE_ACTION",
 }
 
-/** Auth Types */
+/** Company Types */
 export type CompanyType = {
   id: string;
   name: string;
@@ -27,7 +27,7 @@ export interface ICompanyGetAll {
 }
 
 export interface ICompanyFailure {
-  type: CompanyTypes.FAILURE_ACTION;
+  type: CompanyTypes.COMPANY_FAILURE_ACTION;
   payload: { error: string };
 }
 
