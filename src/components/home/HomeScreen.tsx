@@ -1,5 +1,6 @@
 import CompanyHomePreview from "../company/CompanyHomePreview";
 import ConsoleHomePreview from "../console/ConsoleHomePreview";
+import VideogameHomePreview from "../videogame/VideogameHomePreview";
 import "./homeScreen.css";
 
 const HomeScreen = () => {
@@ -7,6 +8,7 @@ const HomeScreen = () => {
     <div className="home-container">
       <CompanyHomePreview />
       <ConsoleHomePreview />
+      <VideogameHomePreview />
     </div>
   );
 };
