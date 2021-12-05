@@ -2,9 +2,19 @@ import { Card } from "react-bootstrap";
 import { CompanyType } from "../../state/action-types/company.types";
 import "./company.css";
 
-const CompanyCard = ({ company }: { company: CompanyType }) => {
+const CompanyCard = ({
+  company,
+  onClickFunction,
+}: {
+  company: CompanyType;
+  onClickFunction?: Function;
+}) => {
+  const handleCardClick = () => {
+    if (onClickFunction) onClickFunction();
+  };
+
   return (
-    <Card className="text-white card card--sm">
+    <Card className="text-white card card--sm" onClick={handleCardClick}>
       <Card.Img
         src={`data:${company.imageType};base64,${company.image}`}
         alt="Card image"
