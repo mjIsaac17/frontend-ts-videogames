@@ -6,9 +6,9 @@ import { toast } from "react-toastify";
 import { RootStore } from "../reducers/rootReducer";
 import {
   CompanyDispathTypes,
-  CompanyType,
   CompanyTypes,
   ICompanyFailure,
+  ICompanyLoading,
 } from "../action-types/company.types";
 
 const failureAction = (error: string): ICompanyFailure => ({
@@ -16,11 +16,17 @@ const failureAction = (error: string): ICompanyFailure => ({
   payload: { error },
 });
 
+const setLoading = (loading: boolean): ICompanyLoading => ({
+  type: CompanyTypes.COMPANY_SET_LOADING,
+  payload: { loading },
+});
+
 export const companyStartGettingAll = (limit?: number, page?: number) => {
   return async (
     dispatch: Dispatch<CompanyDispathTypes>,
     getState: () => RootStore
   ) => {
+    dispatch(setLoading(true));
     const { auth } = getState();
     const { data } = await httpRequestToken(
       "company",
@@ -35,8 +41,13 @@ export const companyStartGettingAll = (limit?: number, page?: number) => {
     } else {
       dispatch({
         type: CompanyTypes.SUCCESS_GET_COMPANIES,
-        payload: { companies: data.companies as CompanyType[] },
+        payload: {
+          companies: data.companies,
+          totalCompanies: data.count,
+          totalPages: data.pages,
+        },
       });
     }
+    dispatch(setLoading(false));
   };
 };

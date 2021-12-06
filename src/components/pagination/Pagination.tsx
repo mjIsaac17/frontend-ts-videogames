@@ -7,20 +7,18 @@ type PageItemType = {
 };
 
 const CustomPagination = ({
-  totalItems,
-  itemsPerPage,
+  totalPages,
   handlePaginationClick,
   maxPagesToShow = 5,
 }: {
-  totalItems: number;
-  itemsPerPage: number;
+  totalPages: number;
   handlePaginationClick: Function;
   maxPagesToShow?: number;
 }) => {
+  //IF totalPages === 1, THE COMPONENT WILL NOT SHOW ANY PAGE.
   const initialPage = 1;
   const [currentPage, setCurrentPage] = useState(1);
   const [pageItems, setPageItems] = useState<PageItemType[]>([]);
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const setClassActive = (selectedPage: number) => {
     document

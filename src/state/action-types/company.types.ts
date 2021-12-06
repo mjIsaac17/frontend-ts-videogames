@@ -2,6 +2,7 @@
 export enum CompanyTypes {
   SUCCESS_GET_COMPANIES = "SUCCESS_GET_COMPANIES",
   COMPANY_FAILURE_ACTION = "COMPANY_FAILURE_ACTION",
+  COMPANY_SET_LOADING = "COMPANY_SET_LOADING",
 }
 
 /** Company Types */
@@ -17,13 +18,19 @@ export type CompanyType = {
 export interface CompanyState {
   companies: CompanyType[];
   loading: boolean;
+  totalCompanies?: number;
+  totalPages?: number;
   error?: string;
 }
 
 /** Interfaces */
 export interface ICompanyGetAll {
   type: CompanyTypes.SUCCESS_GET_COMPANIES;
-  payload: { companies: CompanyType[] };
+  payload: {
+    companies: CompanyType[];
+    totalCompanies: number;
+    totalPages: number;
+  };
 }
 
 export interface ICompanyFailure {
@@ -31,4 +38,12 @@ export interface ICompanyFailure {
   payload: { error: string };
 }
 
-export type CompanyDispathTypes = ICompanyGetAll | ICompanyFailure;
+export interface ICompanyLoading {
+  type: CompanyTypes.COMPANY_SET_LOADING;
+  payload: { loading: boolean };
+}
+
+export type CompanyDispathTypes =
+  | ICompanyGetAll
+  | ICompanyFailure
+  | ICompanyLoading;

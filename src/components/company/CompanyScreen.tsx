@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { companyStartGettingAll } from "../../state/action-creators/company.actions";
 import { RootStore } from "../../state/reducers/rootReducer";
@@ -10,36 +10,47 @@ const CompanyScreen = () => {
   console.log("render <CompanyScreen />");
 
   const dispatch = useDispatch();
-  const companiesPerPage = 20;
-  const companyState = useSelector((state: RootStore) => state.company);
-  useEffect(() => {
-    dispatch(companyStartGettingAll(companiesPerPage));
-  }, []);
 
-  const handlePaginationClick = (currentPage: number) => {
-    console.log(currentPage);
+  // selectors
+  const companyState = useSelector((state: RootStore) => state.company);
+
+  // states
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // local variables
+  const companiesPerPage = 2;
+  const maxPagesToShow = 4;
+  const totalPages = companyState.totalPages || 0;
+
+  // handler functions
+  const handlePaginationClick = (newPage: number) => {
+    setCurrentPage(newPage);
   };
+
+  // effects
+  useEffect(() => {
+    dispatch(companyStartGettingAll(companiesPerPage, currentPage));
+  }, [dispatch, currentPage]);
 
   console.log(companyState);
   return (
     <div className="container-w95">
       <h3 className="h1-title">Company Home</h3>
-      {companyState.loading ? (
-        <LoaderSpinner loadingText={true} />
-      ) : (
-        <>
-          <div className="card-list">
-            {companyState.companies.map((company) => (
-              <CompanyCard key={company.name} company={company} />
-            ))}
-          </div>
-          <CustomPagination
-            totalItems={10}
-            itemsPerPage={1}
-            maxPagesToShow={10}
-            handlePaginationClick={handlePaginationClick}
-          />
-        </>
+      <div className="card-list">
+        {companyState.loading && (
+          <LoaderSpinner loadingText={"Loading companies..."} color="white" />
+        )}
+        {companyState.companies.length > 0 &&
+          companyState.companies.map((company) => (
+            <CompanyCard key={company.name} company={company} />
+          ))}
+      </div>
+      {totalPages > 1 && (
+        <CustomPagination
+          totalPages={totalPages}
+          maxPagesToShow={maxPagesToShow}
+          handlePaginationClick={handlePaginationClick}
+        />
       )}
     </div>
   );

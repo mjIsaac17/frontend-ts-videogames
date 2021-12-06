@@ -17,14 +17,21 @@ const companyReducer = (
     case CompanyTypes.SUCCESS_GET_COMPANIES:
       return {
         ...state,
-        loading: false,
         companies: action.payload.companies,
+        totalCompanies: action.payload.totalCompanies,
+        totalPages: action.payload.totalPages,
       };
     case CompanyTypes.COMPANY_FAILURE_ACTION:
       return {
         loading: false,
         companies: [],
         error: action.payload.error,
+      };
+
+    case CompanyTypes.COMPANY_SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload.loading,
       };
 
     default:
