@@ -2,6 +2,7 @@
 export enum ConsoleTypes {
   SUCCESS_GET_CONSOLES = "SUCCESS_GET_CONSOLES",
   CONSOLE_FAILURE_ACTION = "CONSOLE_FAILURE_ACTION",
+  CONSOLE_SET_LOADING = "CONSOLE_SET_LOADING",
 }
 
 type ConsoleCompanyType = {
@@ -25,12 +26,18 @@ export interface ConsoleState {
   consoles: ConsoleType[];
   loading: boolean;
   error?: string;
+  totalConsoles?: number;
+  totalPages?: number;
 }
 
 /** Interfaces */
 export interface IConsoleGetAll {
   type: ConsoleTypes.SUCCESS_GET_CONSOLES;
-  payload: { consoles: ConsoleType[] };
+  payload: {
+    consoles: ConsoleType[];
+    totalConsoles: number;
+    totalPages: number;
+  };
 }
 
 export interface IConsoleFailure {
@@ -38,4 +45,12 @@ export interface IConsoleFailure {
   payload: { error: string };
 }
 
-export type ConsoleDispathTypes = IConsoleGetAll | IConsoleFailure;
+export interface IConsoleLoading {
+  type: ConsoleTypes.CONSOLE_SET_LOADING;
+  payload: { loading: boolean };
+}
+
+export type ConsoleDispathTypes =
+  | IConsoleGetAll
+  | IConsoleFailure
+  | IConsoleLoading;

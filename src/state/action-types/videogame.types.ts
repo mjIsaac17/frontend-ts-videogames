@@ -2,6 +2,7 @@
 export enum VideogameTypes {
   SUCCESS_GET_VIDEOGAMES = "SUCCESS_GET_VIDEOGAMES",
   VIDEOGAME_FAILURE_ACTION = "VIDEOGAME_FAILURE_ACTION",
+  VIDEOGAME_SET_LOADING = "VIDEOGAME_SET_LOADING",
 }
 
 type VideogameCompanyType = {
@@ -31,12 +32,18 @@ export interface VideogameState {
   videogames: VideogameType[];
   loading: boolean;
   error?: string;
+  totalVideogames?: number;
+  totalPages?: number;
 }
 
 /** Interfaces */
 export interface IVideogameGetAll {
   type: VideogameTypes.SUCCESS_GET_VIDEOGAMES;
-  payload: { videogames: VideogameType[] };
+  payload: {
+    videogames: VideogameType[];
+    totalVideogames: number;
+    totalPages: number;
+  };
 }
 
 export interface IVideogameFailure {
@@ -44,4 +51,12 @@ export interface IVideogameFailure {
   payload: { error: string };
 }
 
-export type VideogameDispathTypes = IVideogameGetAll | IVideogameFailure;
+export interface IVideogameLoading {
+  type: VideogameTypes.VIDEOGAME_SET_LOADING;
+  payload: { loading: boolean };
+}
+
+export type VideogameDispathTypes =
+  | IVideogameGetAll
+  | IVideogameFailure
+  | IVideogameLoading;

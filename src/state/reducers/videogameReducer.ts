@@ -19,12 +19,20 @@ const VideogameReducer = (
         ...state,
         loading: false,
         videogames: action.payload.videogames,
+        totalVideogames: action.payload.totalVideogames,
+        totalPages: action.payload.totalPages,
       };
     case VideogameTypes.VIDEOGAME_FAILURE_ACTION:
       return {
         loading: false,
         videogames: [],
         error: action.payload.error,
+      };
+
+    case VideogameTypes.VIDEOGAME_SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload.loading,
       };
 
     default:

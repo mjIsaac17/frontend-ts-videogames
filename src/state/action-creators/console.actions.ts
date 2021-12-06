@@ -6,9 +6,9 @@ import { toast } from "react-toastify";
 import { RootStore } from "../reducers/rootReducer";
 import {
   ConsoleDispathTypes,
-  ConsoleType,
   ConsoleTypes,
   IConsoleFailure,
+  IConsoleLoading,
 } from "../action-types/console.types";
 
 const failureAction = (error: string): IConsoleFailure => ({
@@ -16,11 +16,17 @@ const failureAction = (error: string): IConsoleFailure => ({
   payload: { error },
 });
 
+const setLoading = (loading: boolean): IConsoleLoading => ({
+  type: ConsoleTypes.CONSOLE_SET_LOADING,
+  payload: { loading },
+});
+
 export const consoleStartGettingAll = (limit?: number, page?: number) => {
   return async (
     dispatch: Dispatch<ConsoleDispathTypes>,
     getState: () => RootStore
   ) => {
+    dispatch(setLoading(true));
     const { auth } = getState();
     const { data } = await httpRequestToken(
       "console",
@@ -34,8 +40,13 @@ export const consoleStartGettingAll = (limit?: number, page?: number) => {
     } else {
       dispatch({
         type: ConsoleTypes.SUCCESS_GET_CONSOLES,
-        payload: { consoles: data.consoles as ConsoleType[] },
+        payload: {
+          consoles: data.consoles,
+          totalConsoles: data.count,
+          totalPages: data.pages,
+        },
       });
     }
+    dispatch(setLoading(false));
   };
 };

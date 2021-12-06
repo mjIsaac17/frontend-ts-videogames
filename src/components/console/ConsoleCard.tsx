@@ -2,9 +2,18 @@ import { Card } from "react-bootstrap";
 import { ConsoleType } from "../../state/action-types/console.types";
 import "./console.css";
 
-const ConsoleCard = ({ console }: { console: ConsoleType }) => {
+const ConsoleCard = ({
+  console,
+  onClickFunction,
+}: {
+  console: ConsoleType;
+  onClickFunction?: Function;
+}) => {
+  const handleCardClick = () => {
+    if (onClickFunction) onClickFunction();
+  };
   return (
-    <Card className="text-white card card--sm">
+    <Card className="text-white card card--sm" onClick={handleCardClick}>
       <Card.Img
         src={`data:${console.imageType};base64,${console.image}`}
         alt="Card image"

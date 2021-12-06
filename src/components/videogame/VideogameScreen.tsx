@@ -1,0 +1,59 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { consoleStartGettingAll } from "../../state/action-creators/console.actions";
+import { videogameStartGettingAll } from "../../state/action-creators/videogame.actions";
+import { RootStore } from "../../state/reducers/rootReducer";
+import LoaderSpinner from "../loader/LoaderSpinner";
+import CustomPagination from "../pagination/Pagination";
+import VideogameCard from "./VideogameCard";
+
+const VideogameScreen = () => {
+  console.log("render <VideogameScreen />");
+
+  const dispatch = useDispatch();
+
+  // selectors
+  const videogameState = useSelector((state: RootStore) => state.videogame);
+
+  // states
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // local variables
+  const videogamesPerPage = 2;
+  const maxPagesToShow = 4;
+  const totalPages = videogameState.totalPages || 0;
+
+  // handler functions
+  const handlePaginationClick = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  // effects
+  useEffect(() => {
+    dispatch(videogameStartGettingAll(videogamesPerPage, currentPage));
+  }, [dispatch, currentPage]);
+
+  return (
+    <div className="container-w95">
+      <h3 className="h1-title">Videogame Home</h3>
+      <div className="card-list">
+        {videogameState.loading && (
+          <LoaderSpinner loadingText={"Loading videogames..."} color="white" />
+        )}
+        {videogameState.videogames.length > 0 &&
+          videogameState.videogames.map((videogame) => (
+            <VideogameCard key={videogame.name} videogame={videogame} />
+          ))}
+      </div>
+      {totalPages > 1 && (
+        <CustomPagination
+          totalPages={totalPages}
+          maxPagesToShow={maxPagesToShow}
+          handlePaginationClick={handlePaginationClick}
+        />
+      )}
+    </div>
+  );
+};
+
+export default VideogameScreen;

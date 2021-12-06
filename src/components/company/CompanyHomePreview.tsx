@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { companyStartGettingAll } from "../../state/action-creators/company.actions";
 import { RootStore } from "../../state/reducers/rootReducer";
 import CompanyCard from "../company/CompanyCard";
+import LoaderSpinner from "../loader/LoaderSpinner";
 const CompanyHomePreview = () => {
   console.log("render <CompanyHomePreview>");
 
@@ -13,6 +14,7 @@ const CompanyHomePreview = () => {
   const { companies, loading } = useSelector(
     (state: RootStore) => state.company
   );
+
   const handleClick = () => {
     navigate("/company");
   };
@@ -21,12 +23,12 @@ const CompanyHomePreview = () => {
     dispatch(companyStartGettingAll(3));
   }, [dispatch]);
   return (
-    <div>
+    <div className="card-list">
       {loading ? (
-        <p>Loading...</p>
+        <LoaderSpinner loadingText="Loading companies..." color="white" />
       ) : (
-        <div className="card-list">
-          <h2>Videogames companies</h2>
+        <>
+          <h2>Companies</h2>
           {companies &&
             companies.map((company) => (
               <CompanyCard
@@ -35,7 +37,7 @@ const CompanyHomePreview = () => {
                 onClickFunction={handleClick}
               />
             ))}
-        </div>
+        </>
       )}
     </div>
   );

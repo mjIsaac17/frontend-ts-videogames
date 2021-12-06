@@ -20,12 +20,19 @@ const consoleReducer = (
         ...state,
         loading: false,
         consoles: action.payload.consoles,
+        totalConsoles: action.payload.totalConsoles,
+        totalPages: action.payload.totalPages,
       };
     case ConsoleTypes.CONSOLE_FAILURE_ACTION:
       return {
         loading: false,
         consoles: [],
         error: action.payload.error,
+      };
+    case ConsoleTypes.CONSOLE_SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload.loading,
       };
 
     default:

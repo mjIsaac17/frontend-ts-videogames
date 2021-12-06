@@ -17,6 +17,10 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
+.a-no-style {
+  color: inherit;
+  text-decoration: inherit;
+}
 
 .center {
   align-items: center;

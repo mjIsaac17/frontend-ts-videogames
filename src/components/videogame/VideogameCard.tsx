@@ -2,9 +2,18 @@ import { Card } from "react-bootstrap";
 import { VideogameType } from "../../state/action-types/videogame.types";
 import "./videogame.css";
 
-const VideogameCard = ({ videogame }: { videogame: VideogameType }) => {
+const VideogameCard = ({
+  videogame,
+  onClickFunction,
+}: {
+  videogame: VideogameType;
+  onClickFunction?: Function;
+}) => {
+  const handleCardClick = () => {
+    if (onClickFunction) onClickFunction();
+  };
   return (
-    <Card className="text-white card card--sm">
+    <Card className="text-white card card--sm" onClick={handleCardClick}>
       <Card.Img
         src={`data:${videogame.imageType};base64,${videogame.image}`}
         alt="Card image"
