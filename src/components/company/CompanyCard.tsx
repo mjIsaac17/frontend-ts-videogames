@@ -10,7 +10,7 @@ const CompanyCard = ({
   onClickFunction?: Function;
 }) => {
   const handleCardClick = () => {
-    if (onClickFunction) onClickFunction();
+    if (onClickFunction) onClickFunction(company);
   };
 
   return (
@@ -21,7 +21,7 @@ const CompanyCard = ({
       />
       <Card.ImgOverlay className="card-overlay">
         <Card.Title>{company.name}</Card.Title>
-        <Card.Text>{company.description}</Card.Text>
+        <Card.Text>{company.shortDescription}</Card.Text>
       </Card.ImgOverlay>
     </Card>
   );

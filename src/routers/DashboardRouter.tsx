@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import CompanyDetails from "../components/company/CompanyDetails";
 import CompanyScreen from "../components/company/CompanyScreen";
 import ConsoleScreen from "../components/console/ConsoleScreen";
 import HomeScreen from "../components/home/HomeScreen";
@@ -11,6 +12,7 @@ const DashboardRouter = () => {
       <Route element={<NavBar />}>
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/company" element={<CompanyScreen />} />
+        <Route path="/company/:name" element={<CompanyDetails />} />
         <Route path="/console" element={<ConsoleScreen />} />
         <Route path="/videogame" element={<VideogameScreen />} />
         <Route path="/" element={<HomeScreen />} />

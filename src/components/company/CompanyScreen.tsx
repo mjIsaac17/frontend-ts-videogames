@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { companyStartGettingAll } from "../../state/action-creators/company.actions";
+import { useNavigate } from "react-router";
+import {
+  companyStartGettingAll,
+  companySuccessGet,
+} from "../../state/action-creators/company.actions";
+import { CompanyType } from "../../state/action-types/company.types";
 import { RootStore } from "../../state/reducers/rootReducer";
 import LoaderSpinner from "../loader/LoaderSpinner";
 import CustomPagination from "../pagination/Pagination";
@@ -10,6 +15,7 @@ const CompanyScreen = () => {
   console.log("render <CompanyScreen />");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // selectors
   const companyState = useSelector((state: RootStore) => state.company);
@@ -27,6 +33,10 @@ const CompanyScreen = () => {
     setCurrentPage(newPage);
   };
 
+  const handleCompanyClick = (company: CompanyType) => {
+    dispatch(companySuccessGet(company));
+    navigate(`/company/${company.name}`);
+  };
   // effects
   useEffect(() => {
     dispatch(companyStartGettingAll(companiesPerPage, currentPage));
@@ -42,7 +52,13 @@ const CompanyScreen = () => {
         )}
         {companyState.companies.length > 0 &&
           companyState.companies.map((company) => (
-            <CompanyCard key={company.name} company={company} />
+            // <div key={company.name} onClick={() => handleCompanyClick(company)}>
+            // </div>
+            <CompanyCard
+              key={company.name}
+              company={company}
+              onClickFunction={handleCompanyClick}
+            />
           ))}
       </div>
       {totalPages > 1 && (

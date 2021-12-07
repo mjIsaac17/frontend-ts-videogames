@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { RootStore } from "../reducers/rootReducer";
 import {
   VideogameDispathTypes,
-  VideogameType,
   VideogameTypes,
   IVideogameFailure,
   IVideogameLoading,

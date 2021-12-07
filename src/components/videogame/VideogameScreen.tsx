@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { consoleStartGettingAll } from "../../state/action-creators/console.actions";
 import { videogameStartGettingAll } from "../../state/action-creators/videogame.actions";
 import { RootStore } from "../../state/reducers/rootReducer";
 import LoaderSpinner from "../loader/LoaderSpinner";

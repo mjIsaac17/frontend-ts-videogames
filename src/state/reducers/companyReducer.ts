@@ -14,6 +14,12 @@ const companyReducer = (
   action: CompanyDispathTypes
 ): CompanyState => {
   switch (action.type) {
+    case CompanyTypes.SUCCESS_GET_COMPANY:
+      return {
+        ...state,
+        currentCompany: action.payload.company,
+      };
+
     case CompanyTypes.SUCCESS_GET_COMPANIES:
       return {
         ...state,
