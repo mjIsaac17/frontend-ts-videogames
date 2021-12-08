@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import { Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { companyStartGet } from "../../state/action-creators/company.actions";
 import { RootStore } from "../../state/reducers/rootReducer";
 import LoaderSpinner from "../loader/LoaderSpinner";
@@ -8,22 +10,52 @@ import LoaderSpinner from "../loader/LoaderSpinner";
 const CompanyDetails = () => {
   console.log("render <CompanyDetails />");
   const dispatch = useDispatch();
-  const companyState = useSelector((state: RootStore) => state.company);
+  const { loading, currentCompany } = useSelector(
+    (state: RootStore) => state.company
+  );
   const { name } = useParams();
-
-  console.log(companyState);
-
   useEffect(() => {
-    if (!companyState.currentCompany) {
+    if (!currentCompany) {
       if (name) dispatch(companyStartGet(name));
     }
-  }, [companyState.currentCompany, name, dispatch]);
+  }, [currentCompany, name, dispatch]);
   return (
-    <div className="container">
-      {companyState.loading ? (
+    <div className="container company-container">
+      {loading ? (
         <LoaderSpinner loadingText={`${name}...`} color="black" />
       ) : (
-        <p className="h1-title">Company {companyState.currentCompany?.name}</p>
+        <Row>
+          <Col>
+            <p className="h1-title">{currentCompany?.name}</p>
+          </Col>
+
+          <Row>
+            <Col sm="6" className="company-image-container">
+              <img
+                className="company-image"
+                src={`data:${currentCompany?.imageType};base64,${currentCompany?.image}`}
+                alt={name}
+              />
+            </Col>
+            <Col className="d-flex flex-column justify-content-between">
+              <Row className="company-description-container text-justify">
+                <p>{currentCompany?.description}</p>
+              </Row>
+              <Row className="bg-dark text-center mb-5 text-white">
+                <Col>
+                  <Link className="a-no-style" to="/consoles">
+                    Consoles
+                  </Link>
+                </Col>
+                <Col>
+                  <Link className="a-no-style" to="/videogames">
+                    Videogames
+                  </Link>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Row>
       )}
     </div>
   );

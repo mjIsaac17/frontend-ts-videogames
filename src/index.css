@@ -17,7 +17,12 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
+
 .a-no-style {
+  color: inherit;
+  text-decoration: inherit;
+}
+.a-no-style:hover {
   color: inherit;
   text-decoration: inherit;
 }
@@ -92,4 +97,8 @@ a {
   .card-list {
     flex-wrap: wrap;
   }
+}
+
+.text-justify {
+  text-align: justify;
 }
