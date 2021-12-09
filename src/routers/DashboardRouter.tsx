@@ -4,6 +4,7 @@ import CompanyScreen from "../components/company/CompanyScreen";
 import ConsoleScreen from "../components/console/ConsoleScreen";
 import HomeScreen from "../components/home/HomeScreen";
 import NavBar from "../components/navbar/NavBar";
+import VideogameDetails from "../components/videogame/VideogameDetails";
 import VideogameScreen from "../components/videogame/VideogameScreen";
 
 const DashboardRouter = () => {
@@ -15,6 +16,7 @@ const DashboardRouter = () => {
         <Route path="/company/:name" element={<CompanyDetails />} />
         <Route path="/console" element={<ConsoleScreen />} />
         <Route path="/videogame" element={<VideogameScreen />} />
+        <Route path="/videogame/:name" element={<VideogameDetails />} />
         <Route path="/" element={<HomeScreen />} />
       </Route>
     </Routes>

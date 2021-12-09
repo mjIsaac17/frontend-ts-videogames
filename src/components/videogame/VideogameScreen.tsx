@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { videogameStartGettingAll } from "../../state/action-creators/videogame.actions";
+import { useNavigate } from "react-router";
+import {
+  videogameStartGettingAll,
+  videogameSuccessGet,
+} from "../../state/action-creators/videogame.actions";
+import { VideogameType } from "../../state/action-types/videogame.types";
 import { RootStore } from "../../state/reducers/rootReducer";
 import LoaderSpinner from "../loader/LoaderSpinner";
 import CustomPagination from "../pagination/Pagination";
@@ -10,6 +15,7 @@ const VideogameScreen = () => {
   console.log("render <VideogameScreen />");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // selectors
   const videogameState = useSelector((state: RootStore) => state.videogame);
@@ -27,6 +33,11 @@ const VideogameScreen = () => {
     setCurrentPage(newPage);
   };
 
+  const handleVideogameClick = (videogame: VideogameType) => {
+    dispatch(videogameSuccessGet(videogame));
+    navigate(`/videogame/${videogame.name}`);
+  };
+
   // effects
   useEffect(() => {
     dispatch(videogameStartGettingAll(videogamesPerPage, currentPage));
@@ -41,7 +52,11 @@ const VideogameScreen = () => {
         )}
         {videogameState.videogames.length > 0 &&
           videogameState.videogames.map((videogame) => (
-            <VideogameCard key={videogame.name} videogame={videogame} />
+            <VideogameCard
+              key={videogame.name}
+              videogame={videogame}
+              onClickFunction={handleVideogameClick}
+            />
           ))}
       </div>
       {totalPages > 1 && (

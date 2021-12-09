@@ -10,7 +10,7 @@ const VideogameCard = ({
   onClickFunction?: Function;
 }) => {
   const handleCardClick = () => {
-    if (onClickFunction) onClickFunction();
+    if (onClickFunction) onClickFunction(videogame);
   };
   return (
     <Card className="text-white card card--sm" onClick={handleCardClick}>

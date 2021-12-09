@@ -1,5 +1,6 @@
 /** Videogame key types */
 export enum VideogameTypes {
+  SUCCESS_GET_VIDEOGAME = "SUCCESS_GET_VIDEOGAME",
   SUCCESS_GET_VIDEOGAMES = "SUCCESS_GET_VIDEOGAMES",
   VIDEOGAME_FAILURE_ACTION = "VIDEOGAME_FAILURE_ACTION",
   VIDEOGAME_SET_LOADING = "VIDEOGAME_SET_LOADING",
@@ -31,12 +32,18 @@ export type VideogameType = {
 export interface VideogameState {
   videogames: VideogameType[];
   loading: boolean;
+  currentVideogame?: VideogameType;
   error?: string;
   totalVideogames?: number;
   totalPages?: number;
 }
 
 /** Interfaces */
+export interface IVideogameGet {
+  type: VideogameTypes.SUCCESS_GET_VIDEOGAME;
+  payload: { videogame: VideogameType };
+}
+
 export interface IVideogameGetAll {
   type: VideogameTypes.SUCCESS_GET_VIDEOGAMES;
   payload: {
@@ -57,6 +64,7 @@ export interface IVideogameLoading {
 }
 
 export type VideogameDispathTypes =
+  | IVideogameGet
   | IVideogameGetAll
   | IVideogameFailure
   | IVideogameLoading;

@@ -14,10 +14,15 @@ const VideogameReducer = (
   action: VideogameDispathTypes
 ): VideogameState => {
   switch (action.type) {
+    case VideogameTypes.SUCCESS_GET_VIDEOGAME:
+      return {
+        ...state,
+        currentVideogame: action.payload.videogame,
+      };
+
     case VideogameTypes.SUCCESS_GET_VIDEOGAMES:
       return {
         ...state,
-        loading: false,
         videogames: action.payload.videogames,
         totalVideogames: action.payload.totalVideogames,
         totalPages: action.payload.totalPages,
