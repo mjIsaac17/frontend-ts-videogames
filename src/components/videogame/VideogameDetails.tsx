@@ -43,12 +43,7 @@ const VideogameDetails = () => {
               <Row className="company-description-container text-justify">
                 <p>{currentVideogame?.description}</p>
               </Row>
-              <Row>
-                <p>
-                  <b className="me-2">Release date:</b>
-                  {new Date(currentVideogame.releaseDate).toDateString()}
-                </p>
-              </Row>
+              <Row></Row>
               <div>
                 {currentVideogame.companies.length > 0 ? (
                   <>
@@ -91,7 +86,7 @@ const VideogameDetails = () => {
                   <p>No consoles found</p>
                 )}
               </div>
-              <Row className="bg-dark text-center  text-white">
+              <Row className="bg-dark text-center text-white">
                 <Col>
                   <Link className="a-no-style" to="/consoles">
                     Consoles
