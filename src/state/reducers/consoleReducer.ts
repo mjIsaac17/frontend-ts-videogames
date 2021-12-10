@@ -14,11 +14,15 @@ const consoleReducer = (
   action: ConsoleDispathTypes
 ): ConsoleState => {
   switch (action.type) {
-    case ConsoleTypes.SUCCESS_GET_CONSOLES:
-      console.log(action);
+    case ConsoleTypes.SUCCESS_GET_CONSOLE:
       return {
         ...state,
-        loading: false,
+        currentConsole: action.payload.console,
+      };
+
+    case ConsoleTypes.SUCCESS_GET_CONSOLES:
+      return {
+        ...state,
         consoles: action.payload.consoles,
         totalConsoles: action.payload.totalConsoles,
         totalPages: action.payload.totalPages,

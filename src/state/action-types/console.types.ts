@@ -1,5 +1,6 @@
 /** Console key types */
 export enum ConsoleTypes {
+  SUCCESS_GET_CONSOLE = "SUCCESS_GET_CONSOLE",
   SUCCESS_GET_CONSOLES = "SUCCESS_GET_CONSOLES",
   CONSOLE_FAILURE_ACTION = "CONSOLE_FAILURE_ACTION",
   CONSOLE_SET_LOADING = "CONSOLE_SET_LOADING",
@@ -16,7 +17,7 @@ export type ConsoleType = {
   name: string;
   description: string;
   releaseDate: Date;
-  companyId: string | ConsoleCompanyType;
+  companyId: ConsoleCompanyType;
   image: Buffer;
   imageType: string;
 };
@@ -24,6 +25,7 @@ export type ConsoleType = {
 /** State */
 export interface ConsoleState {
   consoles: ConsoleType[];
+  currentConsole?: ConsoleType;
   loading: boolean;
   error?: string;
   totalConsoles?: number;
@@ -31,6 +33,11 @@ export interface ConsoleState {
 }
 
 /** Interfaces */
+export interface IConsoleGet {
+  type: ConsoleTypes.SUCCESS_GET_CONSOLE;
+  payload: { console: ConsoleType };
+}
+
 export interface IConsoleGetAll {
   type: ConsoleTypes.SUCCESS_GET_CONSOLES;
   payload: {
@@ -51,6 +58,7 @@ export interface IConsoleLoading {
 }
 
 export type ConsoleDispathTypes =
+  | IConsoleGet
   | IConsoleGetAll
   | IConsoleFailure
   | IConsoleLoading;

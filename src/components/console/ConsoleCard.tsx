@@ -10,7 +10,7 @@ const ConsoleCard = ({
   onClickFunction?: Function;
 }) => {
   const handleCardClick = () => {
-    if (onClickFunction) onClickFunction();
+    if (onClickFunction) onClickFunction(console);
   };
   return (
     <Card className="text-white card card--sm" onClick={handleCardClick}>

@@ -43,49 +43,44 @@ const VideogameDetails = () => {
               <Row className="company-description-container text-justify">
                 <p>{currentVideogame?.description}</p>
               </Row>
-              <Row></Row>
-              <div>
+              <Row>
+                <p>
+                  <b className="me-2">Release date:</b>
+                  {new Date(currentVideogame.releaseDate).toDateString()}
+                </p>
+              </Row>
+              <Row>
                 {currentVideogame.companies.length > 0 ? (
-                  <>
-                    <p>Companies:</p>
+                  <p>
+                    <b className="me-2">Companies:</b>
                     {currentVideogame.companies.map((company) => (
-                      <Link to={`/company/${company.name}`}>
-                        <Badge
-                          key={company.name}
-                          pill
-                          bg="dark"
-                          className="mx-1"
-                        >
+                      <Link to={`/company/${company.name}`} key={company.name}>
+                        <Badge pill bg="dark" className="mx-1">
                           {company.name}
                         </Badge>
                       </Link>
                     ))}
-                  </>
+                  </p>
                 ) : (
                   <p>No companies found</p>
                 )}
-              </div>
-              <div>
+              </Row>
+              <Row>
                 {currentVideogame.consoles.length > 0 ? (
-                  <>
-                    <p>Consoles:</p>
+                  <p>
+                    <b className="me-2">Consoles:</b>
                     {currentVideogame.consoles.map((console) => (
-                      <Link to={`/console/${console.name}`}>
-                        <Badge
-                          key={console.name}
-                          pill
-                          bg="dark"
-                          className="mx-1"
-                        >
+                      <Link to={`/console/${console.name}`} key={console.name}>
+                        <Badge pill bg="dark" className="mx-1">
                           {console.name}
                         </Badge>
                       </Link>
                     ))}
-                  </>
+                  </p>
                 ) : (
                   <p>No consoles found</p>
                 )}
-              </div>
+              </Row>
               <Row className="bg-dark text-center text-white">
                 <Col>
                   <Link className="a-no-style" to="/consoles">

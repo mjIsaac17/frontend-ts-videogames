@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { consoleStartGettingAll } from "../../state/action-creators/console.actions";
+import { useNavigate } from "react-router";
+import {
+  consoleStartGettingAll,
+  consoleSuccessGet,
+} from "../../state/action-creators/console.actions";
+import { ConsoleType } from "../../state/action-types/console.types";
 import { RootStore } from "../../state/reducers/rootReducer";
 import LoaderSpinner from "../loader/LoaderSpinner";
 import CustomPagination from "../pagination/Pagination";
@@ -10,6 +15,7 @@ const ConsoleScreen = () => {
   console.log("render <ConsoleScreen />");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // selectors
   const consoleState = useSelector((state: RootStore) => state.console);
@@ -27,6 +33,11 @@ const ConsoleScreen = () => {
     setCurrentPage(newPage);
   };
 
+  const handleConsoleClick = (console: ConsoleType) => {
+    dispatch(consoleSuccessGet(console));
+    navigate(`/console/${console.name}`);
+  };
+
   // effects
   useEffect(() => {
     dispatch(consoleStartGettingAll(consolesPerPage, currentPage));
@@ -41,7 +52,11 @@ const ConsoleScreen = () => {
         )}
         {consoleState.consoles.length > 0 &&
           consoleState.consoles.map((console) => (
-            <ConsoleCard key={console.name} console={console} />
+            <ConsoleCard
+              key={console.name}
+              console={console}
+              onClickFunction={handleConsoleClick}
+            />
           ))}
       </div>
       {totalPages > 1 && (

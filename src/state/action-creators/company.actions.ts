@@ -48,7 +48,6 @@ export const companyStartGet = (companyName: string) => {
       );
       toast.error(data.error);
     } else {
-      console.log(data.company);
       dispatch(companySuccessGet(data.company));
     }
     dispatch(setLoading(false));

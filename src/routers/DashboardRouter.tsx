@@ -8,6 +8,7 @@ import HomeScreen from "../components/home/HomeScreen";
 import NavBar from "../components/navbar/NavBar";
 import VideogameDetails from "../components/videogame/VideogameDetails";
 import VideogameScreen from "../components/videogame/VideogameScreen";
+import ConsoleDetails from "../components/console/ConsoleDetails";
 
 const DashboardRouter = () => {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const DashboardRouter = () => {
           <Route path="/company" element={<CompanyScreen />} />
           <Route path="/company/:name" element={<CompanyDetails />} />
           <Route path="/console" element={<ConsoleScreen />} />
+          <Route path="/console/:name" element={<ConsoleDetails />} />
           <Route path="/videogame" element={<VideogameScreen />} />
           <Route path="/videogame/:name" element={<VideogameDetails />} />
           <Route path="/" element={<HomeScreen />} />
