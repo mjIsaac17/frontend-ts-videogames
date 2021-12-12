@@ -40,8 +40,9 @@ const ConsoleScreen = () => {
 
   // effects
   useEffect(() => {
-    dispatch(consoleStartGettingAll(consolesPerPage, currentPage));
-  }, [dispatch, currentPage]);
+    if (!consoleState.currentPage && consoleState.consoles.length === 0)
+      dispatch(consoleStartGettingAll(consolesPerPage, currentPage));
+  }, [dispatch, currentPage, consoleState.currentPage, consoleState.consoles]);
 
   return (
     <div className="container-w95">

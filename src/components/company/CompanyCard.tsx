@@ -1,6 +1,5 @@
 import { Card } from "react-bootstrap";
 import { CompanyType } from "../../state/action-types/company.types";
-import "./company.css";
 
 const CompanyCard = ({
   company,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
@@ -20,29 +20,32 @@ const CompanyScreen = () => {
   // selectors
   const companyState = useSelector((state: RootStore) => state.company);
 
-  // states
-  const [currentPage, setCurrentPage] = useState(1);
-
   // local variables
   const companiesPerPage = 2;
   const maxPagesToShow = 4;
   const totalPages = companyState.totalPages || 0;
 
   // handler functions
-  const handlePaginationClick = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  const handlePaginationClick = useCallback(
+    (newPage: number) => {
+      dispatch(companyStartGettingAll(companiesPerPage, newPage));
+    },
+    [dispatch]
+  );
 
   const handleCompanyClick = (company: CompanyType) => {
     dispatch(companySuccessGet(company));
     navigate(`/company/${company.name}`);
   };
+
   // effects
   useEffect(() => {
-    dispatch(companyStartGettingAll(companiesPerPage, currentPage));
-  }, [dispatch, currentPage]);
+    if (!companyState.currentPage && companyState.companies.length === 0) {
+      console.log("Effect load companies");
+      dispatch(companyStartGettingAll(companiesPerPage, 1));
+    }
+  }, [dispatch, companyState.currentPage, companyState.companies.length]);
 
-  console.log(companyState);
   return (
     <div className="container-w95">
       <h3 className="h1-title">Company Home</h3>
@@ -52,8 +55,6 @@ const CompanyScreen = () => {
         )}
         {companyState.companies.length > 0 &&
           companyState.companies.map((company) => (
-            // <div key={company.name} onClick={() => handleCompanyClick(company)}>
-            // </div>
             <CompanyCard
               key={company.name}
               company={company}
@@ -63,6 +64,7 @@ const CompanyScreen = () => {
       </div>
       {totalPages > 1 && (
         <CustomPagination
+          activePage={companyState.currentPage || 1}
           totalPages={totalPages}
           maxPagesToShow={maxPagesToShow}
           handlePaginationClick={handlePaginationClick}

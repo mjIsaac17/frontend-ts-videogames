@@ -76,6 +76,7 @@ export const consoleStartGettingAll = (limit?: number, page?: number) => {
         type: ConsoleTypes.SUCCESS_GET_CONSOLES,
         payload: {
           consoles: data.consoles,
+          currentPage: page,
           totalConsoles: data.count,
           totalPages: data.pages,
         },

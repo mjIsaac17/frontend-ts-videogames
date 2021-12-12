@@ -23,9 +23,10 @@ const VideogameReducer = (
     case VideogameTypes.SUCCESS_GET_VIDEOGAMES:
       return {
         ...state,
-        videogames: action.payload.videogames,
+        currentPage: action.payload.currentPage,
         totalVideogames: action.payload.totalVideogames,
         totalPages: action.payload.totalPages,
+        videogames: action.payload.videogames,
       };
     case VideogameTypes.VIDEOGAME_FAILURE_ACTION:
       return {

@@ -1,26 +1,26 @@
-h2 {
+.details-h2 {
   color: white;
   align-self: center;
 }
 
-.company-image {
+.details-image {
   max-height: 93%;
   max-width: 93%;
   box-shadow: 2px 2px 10px black;
 }
 
-.company-description-container p {
+.details-description-container p {
   background-color: rgba(0, 0, 0, 0.815);
   color: white;
   padding: 1.5rem;
 }
 
 @media screen and (max-width: 576px) {
-  .company-container {
+  .details-container {
     text-align: center;
   }
 
-  .company-image-container {
+  .details-image-container {
     display: flex;
     justify-content: center;
   }

@@ -21,7 +21,7 @@ const ConsoleDetails = () => {
     }
   }, [currentConsole, name, dispatch]);
   return (
-    <div className="container company-container">
+    <div className="container details-container">
       {loading ? (
         <LoaderSpinner loadingText={`${name}...`} color="black" />
       ) : currentConsole ? (
@@ -31,15 +31,15 @@ const ConsoleDetails = () => {
           </Col>
 
           <Row>
-            <Col sm="6" className="company-image-container">
+            <Col sm="6" className="details-image-container">
               <img
-                className="company-image"
+                className="details-image"
                 src={`data:${currentConsole?.imageType};base64,${currentConsole?.image}`}
                 alt={name}
               />
             </Col>
             <Col className="d-flex flex-column justify-content-between">
-              <Row className="company-description-container text-justify">
+              <Row className="details-description-container text-justify">
                 <p>{currentConsole?.description}</p>
               </Row>
               <Row>

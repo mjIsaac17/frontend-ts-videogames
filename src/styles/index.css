@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.a-no-style {
+  color: inherit;
+  text-decoration: inherit;
+}
+.a-no-style:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.center {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.container-w95 {
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.h1-title {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+.text-justify {
+  text-align: justify;
+}

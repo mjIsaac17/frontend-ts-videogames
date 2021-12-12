@@ -26,21 +26,21 @@ const VideogameDetails = () => {
       {loading ? (
         <LoaderSpinner loadingText={`${name}...`} color="black" />
       ) : currentVideogame?.name ? (
-        <Row className="company-container">
+        <Row className="details-container">
           <Col>
             <p className="h1-title">{currentVideogame?.name}</p>
           </Col>
 
           <Row>
-            <Col sm="6" className="company-image-container">
+            <Col sm="6" className="details-image-container">
               <img
-                className="company-image"
+                className="details-image"
                 src={`data:${currentVideogame?.imageType};base64,${currentVideogame?.image}`}
                 alt={name}
               />
             </Col>
             <Col className="d-flex flex-column justify-content-between">
-              <Row className="company-description-container text-justify">
+              <Row className="details-description-container text-justify">
                 <p>{currentVideogame?.description}</p>
               </Row>
               <Row>

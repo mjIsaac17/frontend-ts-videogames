@@ -76,6 +76,7 @@ export const companyStartGettingAll = (limit?: number, page?: number) => {
         type: CompanyTypes.SUCCESS_GET_COMPANIES,
         payload: {
           companies: data.companies,
+          currentPage: page,
           totalCompanies: data.count,
           totalPages: data.pages,
         },

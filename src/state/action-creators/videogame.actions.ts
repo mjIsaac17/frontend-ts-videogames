@@ -77,9 +77,10 @@ export const videogameStartGettingAll = (limit?: number, page?: number) => {
       dispatch({
         type: VideogameTypes.SUCCESS_GET_VIDEOGAMES,
         payload: {
-          videogames: data.videogames,
+          currentPage: page,
           totalVideogames: data.count,
           totalPages: data.pages,
+          videogames: data.videogames,
         },
       });
     }

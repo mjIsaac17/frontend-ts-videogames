@@ -32,6 +32,7 @@ export type VideogameType = {
 export interface VideogameState {
   videogames: VideogameType[];
   loading: boolean;
+  currentPage?: number;
   currentVideogame?: VideogameType;
   error?: string;
   totalVideogames?: number;
@@ -47,9 +48,10 @@ export interface IVideogameGet {
 export interface IVideogameGetAll {
   type: VideogameTypes.SUCCESS_GET_VIDEOGAMES;
   payload: {
-    videogames: VideogameType[];
+    currentPage: number | undefined;
     totalVideogames: number;
     totalPages: number;
+    videogames: VideogameType[];
   };
 }
 

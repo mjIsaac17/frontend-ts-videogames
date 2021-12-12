@@ -20,6 +20,7 @@ export type CompanyType = {
 export interface CompanyState {
   companies: CompanyType[];
   currentCompany?: CompanyType;
+  currentPage?: number;
   loading: boolean;
   totalCompanies?: number;
   totalPages?: number;
@@ -36,6 +37,7 @@ export interface ICompanyGetAll {
   type: CompanyTypes.SUCCESS_GET_COMPANIES;
   payload: {
     companies: CompanyType[];
+    currentPage: number | undefined;
     totalCompanies: number;
     totalPages: number;
   };

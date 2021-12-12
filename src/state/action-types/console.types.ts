@@ -26,6 +26,7 @@ export type ConsoleType = {
 export interface ConsoleState {
   consoles: ConsoleType[];
   currentConsole?: ConsoleType;
+  currentPage?: number;
   loading: boolean;
   error?: string;
   totalConsoles?: number;
@@ -42,6 +43,7 @@ export interface IConsoleGetAll {
   type: ConsoleTypes.SUCCESS_GET_CONSOLES;
   payload: {
     consoles: ConsoleType[];
+    currentPage: number | undefined;
     totalConsoles: number;
     totalPages: number;
   };

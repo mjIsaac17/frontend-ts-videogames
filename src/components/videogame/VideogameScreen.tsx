@@ -40,8 +40,14 @@ const VideogameScreen = () => {
 
   // effects
   useEffect(() => {
-    dispatch(videogameStartGettingAll(videogamesPerPage, currentPage));
-  }, [dispatch, currentPage]);
+    if (!videogameState.currentPage && videogameState.videogames.length === 0)
+      dispatch(videogameStartGettingAll(videogamesPerPage, currentPage));
+  }, [
+    dispatch,
+    currentPage,
+    videogameState.currentPage,
+    videogameState.videogames,
+  ]);
 
   return (
     <div className="container-w95">

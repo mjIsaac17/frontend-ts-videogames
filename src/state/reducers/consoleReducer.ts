@@ -24,6 +24,7 @@ const consoleReducer = (
       return {
         ...state,
         consoles: action.payload.consoles,
+        currentPage: action.payload.currentPage,
         totalConsoles: action.payload.totalConsoles,
         totalPages: action.payload.totalPages,
       };

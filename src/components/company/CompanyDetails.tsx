@@ -20,7 +20,7 @@ const CompanyDetails = () => {
     }
   }, [currentCompany, name, dispatch]);
   return (
-    <div className="container company-container">
+    <div className="container details-container">
       {loading ? (
         <LoaderSpinner loadingText={`${name}...`} color="black" />
       ) : (
@@ -30,15 +30,15 @@ const CompanyDetails = () => {
           </Col>
 
           <Row>
-            <Col sm="6" className="company-image-container">
+            <Col sm="6" className="details-image-container">
               <img
-                className="company-image"
+                className="details-image"
                 src={`data:${currentCompany?.imageType};base64,${currentCompany?.image}`}
                 alt={name}
               />
             </Col>
             <Col className="d-flex flex-column justify-content-between">
-              <Row className="company-description-container text-justify">
+              <Row className="details-description-container text-justify">
                 <p>{currentCompany?.description}</p>
               </Row>
               <Row className="bg-dark text-center mb-5 text-white">

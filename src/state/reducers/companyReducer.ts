@@ -24,6 +24,7 @@ const companyReducer = (
       return {
         ...state,
         companies: action.payload.companies,
+        currentPage: action.payload.currentPage,
         totalCompanies: action.payload.totalCompanies,
         totalPages: action.payload.totalPages,
       };

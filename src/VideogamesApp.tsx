@@ -1,11 +1,16 @@
-import AppRouter from "./routers/AppRouter";
-
 import { Provider } from "react-redux";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import AppRouter from "./routers/AppRouter";
 import store from "./state/store";
+
+import "./styles/index.css";
+import "./styles/detailsScreen.css";
+import "./styles/card.css";
 
 const VideogamesApp = () => {
   return (

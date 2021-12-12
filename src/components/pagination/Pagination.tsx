@@ -7,17 +7,21 @@ type PageItemType = {
 };
 
 const CustomPagination = ({
+  activePage = 1,
   totalPages,
   handlePaginationClick,
   maxPagesToShow = 5,
 }: {
+  activePage?: number;
   totalPages: number;
   handlePaginationClick: Function;
   maxPagesToShow?: number;
 }) => {
-  //IF totalPages === 1, THE COMPONENT WILL NOT SHOW ANY PAGE.
-  const initialPage = 1;
-  const [currentPage, setCurrentPage] = useState(1);
+  console.log("Render <pagination/>");
+
+  //If totalPages === 1, THE COMPONENT WILL NOT SHOW ANY PAGE.
+  const firstPage = 1;
+  const [currentPage, setCurrentPage] = useState(activePage);
   const [pageItems, setPageItems] = useState<PageItemType[]>([]);
 
   const setClassActive = (selectedPage: number) => {
@@ -57,9 +61,11 @@ const CustomPagination = ({
 
       for (let i = 0; i < nextMaxOfDisplayedPages; i++) {
         const nextPage = loadPagesFrom + i;
-        pageItemsProps.push({ key: `page-${nextPage}`, pageNumber: nextPage });
+        pageItemsProps.push({
+          key: `page-${nextPage}`,
+          pageNumber: nextPage,
+        });
       }
-
       setPageItems(pageItemsProps);
     },
     [maxPagesToShow, totalPages]
@@ -92,20 +98,23 @@ const CustomPagination = ({
   };
 
   useEffect(() => {
-    loadPageItems(initialPage);
-  }, [loadPageItems]);
+    if (currentPage === firstPage || currentPage % maxPagesToShow === 0)
+      loadPageItems(currentPage);
+    else loadPageItems(Math.ceil(currentPage / maxPagesToShow));
+  }, [loadPageItems, currentPage, maxPagesToShow]);
 
   return (
     <Pagination>
-      <Pagination.First onClick={() => handlePageClick(initialPage)} />
+      <Pagination.First onClick={() => handlePageClick(firstPage)} />
       <Pagination.Prev onClick={handlePreviousPage} />
-      {pageItems.length > 0 && pageItems[0]?.pageNumber !== initialPage && (
+      {pageItems.length > 0 && pageItems[0]?.pageNumber !== firstPage && (
         <>
           <Pagination.Item
-            id={`page-${initialPage}`}
-            onClick={() => handlePageClick(initialPage)}
+            id={`page-${firstPage}`}
+            onClick={() => handlePageClick(firstPage)}
+            active={currentPage === firstPage}
           >
-            {initialPage}
+            {firstPage}
           </Pagination.Item>
           <Pagination.Ellipsis disabled />
         </>
@@ -130,6 +139,7 @@ const CustomPagination = ({
           <Pagination.Item
             id={`page-${totalPages}`}
             onClick={() => handlePageClick(totalPages)}
+            active={currentPage === totalPages}
           >
             {totalPages}
           </Pagination.Item>
