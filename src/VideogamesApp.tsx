@@ -11,6 +11,7 @@ import store from "./state/store";
 import "./styles/index.css";
 import "./styles/detailsScreen.css";
 import "./styles/card.css";
+import "./styles/modal.css";
 
 const VideogamesApp = () => {
   return (
