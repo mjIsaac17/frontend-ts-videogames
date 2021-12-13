@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
@@ -20,18 +20,18 @@ const VideogameScreen = () => {
   // selectors
   const videogameState = useSelector((state: RootStore) => state.videogame);
 
-  // states
-  const [currentPage, setCurrentPage] = useState(1);
-
   // local variables
   const videogamesPerPage = 2;
   const maxPagesToShow = 4;
   const totalPages = videogameState.totalPages || 0;
 
   // handler functions
-  const handlePaginationClick = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  const handlePaginationClick = useCallback(
+    (newPage: number) => {
+      dispatch(videogameStartGettingAll(videogamesPerPage, newPage));
+    },
+    [dispatch]
+  );
 
   const handleVideogameClick = (videogame: VideogameType) => {
     dispatch(videogameSuccessGet(videogame));
@@ -41,13 +41,8 @@ const VideogameScreen = () => {
   // effects
   useEffect(() => {
     if (!videogameState.currentPage && videogameState.videogames.length === 0)
-      dispatch(videogameStartGettingAll(videogamesPerPage, currentPage));
-  }, [
-    dispatch,
-    currentPage,
-    videogameState.currentPage,
-    videogameState.videogames,
-  ]);
+      dispatch(videogameStartGettingAll(videogamesPerPage, 1));
+  }, [dispatch, videogameState.currentPage, videogameState.videogames]);
 
   return (
     <div className="container-w95">
@@ -67,6 +62,7 @@ const VideogameScreen = () => {
       </div>
       {totalPages > 1 && (
         <CustomPagination
+          activePage={videogameState.currentPage || 1}
           totalPages={totalPages}
           maxPagesToShow={maxPagesToShow}
           handlePaginationClick={handlePaginationClick}

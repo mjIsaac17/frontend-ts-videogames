@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
@@ -20,18 +20,18 @@ const ConsoleScreen = () => {
   // selectors
   const consoleState = useSelector((state: RootStore) => state.console);
 
-  // states
-  const [currentPage, setCurrentPage] = useState(1);
-
   // local variables
   const consolesPerPage = 2;
   const maxPagesToShow = 4;
   const totalPages = consoleState.totalPages || 0;
 
   // handler functions
-  const handlePaginationClick = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  const handlePaginationClick = useCallback(
+    (newPage: number) => {
+      dispatch(consoleStartGettingAll(consolesPerPage, newPage));
+    },
+    [dispatch]
+  );
 
   const handleConsoleClick = (console: ConsoleType) => {
     dispatch(consoleSuccessGet(console));
@@ -41,8 +41,8 @@ const ConsoleScreen = () => {
   // effects
   useEffect(() => {
     if (!consoleState.currentPage && consoleState.consoles.length === 0)
-      dispatch(consoleStartGettingAll(consolesPerPage, currentPage));
-  }, [dispatch, currentPage, consoleState.currentPage, consoleState.consoles]);
+      dispatch(consoleStartGettingAll(consolesPerPage, 1));
+  }, [dispatch, consoleState.currentPage, consoleState.consoles]);
 
   return (
     <div className="container-w95">
@@ -62,6 +62,7 @@ const ConsoleScreen = () => {
       </div>
       {totalPages > 1 && (
         <CustomPagination
+          activePage={consoleState.currentPage || 1}
           totalPages={totalPages}
           maxPagesToShow={maxPagesToShow}
           handlePaginationClick={handlePaginationClick}
