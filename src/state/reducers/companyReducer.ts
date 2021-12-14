@@ -28,6 +28,17 @@ const companyReducer = (
         totalCompanies: action.payload.totalCompanies,
         totalPages: action.payload.totalPages,
       };
+
+    case CompanyTypes.SUCCESS_UPDATE_COMPANY:
+      return {
+        ...state,
+        companies: state.companies.map((company) =>
+          company._id !== action.payload.company._id
+            ? company
+            : action.payload.company
+        ),
+      };
+
     case CompanyTypes.COMPANY_FAILURE_ACTION:
       return {
         loading: false,

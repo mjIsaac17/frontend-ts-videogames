@@ -17,17 +17,25 @@ export const httpRequestToken = (
   queryParams?: Object,
   data?: any
 ) => {
+  const formData = new FormData();
+  for (const key in data) {
+    formData.append(key, data[key]);
+  }
+
   const url = `${baseUrl}/${endpoint}`;
   const tokenKey =
     (process.env.REACT_HEADER_AUTH_TOKEN as string) || "Authorization";
   const headers = {
-    "Content-Type": "application/json",
     [tokenKey]: authToken,
   };
 
-  return axios({ method, url, headers, data, params: queryParams }).catch(
-    (error) => {
-      return error.response;
-    }
-  );
+  return axios({
+    method,
+    url,
+    headers,
+    data: formData,
+    params: queryParams,
+  }).catch((error) => {
+    return error.response;
+  });
 };

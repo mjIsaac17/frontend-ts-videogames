@@ -5,6 +5,7 @@ import { httpRequestToken } from "../../helpers/httpRequests";
 import { toast } from "react-toastify";
 import { RootStore } from "../reducers/rootReducer";
 import {
+  CompanyAddType,
   CompanyDispathTypes,
   CompanyType,
   CompanyTypes,
@@ -83,5 +84,38 @@ export const companyStartGettingAll = (limit?: number, page?: number) => {
       });
     }
     dispatch(setLoading(false));
+  };
+};
+
+export const companyStartUpdate = (
+  company: CompanyAddType,
+  companyId: string
+) => {
+  return async (
+    dispatch: Dispatch<CompanyDispathTypes>,
+    getState: () => RootStore
+  ) => {
+    const { auth } = getState();
+    const { data } = await httpRequestToken(
+      `company/${companyId}`,
+      "PUT",
+      auth.auth?.authToken || "",
+      undefined,
+      company
+    );
+
+    if (data.error) {
+      dispatch(failureAction(data.error));
+      toast.error("An error ocurred when trying to update the company");
+    } else {
+      dispatch({
+        type: CompanyTypes.SUCCESS_UPDATE_COMPANY,
+        payload: {
+          company: data.company,
+        },
+      });
+      //console.log(data);
+      toast.success("Company updated");
+    }
   };
 };

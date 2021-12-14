@@ -7,12 +7,16 @@ import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   companyStartGettingAll,
+  companyStartUpdate,
   companySuccessGet,
 } from "../../state/action-creators/company.actions";
 import { RootStore } from "../../state/reducers/rootReducer";
 import LoaderSpinner from "../loader/LoaderSpinner";
 import CustomPagination from "../pagination/Pagination";
-import { CompanyType } from "../../state/action-types/company.types";
+import {
+  CompanyAddType,
+  CompanyType,
+} from "../../state/action-types/company.types";
 import { useForm } from "react-hook-form";
 
 const CompanyList = () => {
@@ -33,22 +37,17 @@ const CompanyList = () => {
   const totalPages = companyState.totalPages || 0;
   const currentCompany = companyState.currentCompany;
 
-  type AddCompanyForm = {
-    name: string;
-    description: string;
-    image: File;
-  };
-
   const AddCompanySchema = object().shape({
     name: string().required(),
-    description: string().required(),
+    shortDescription: string(),
+    description: string(),
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AddCompanyForm>({
+  } = useForm<CompanyAddType>({
     resolver: yupResolver(AddCompanySchema),
   });
 
@@ -70,8 +69,14 @@ const CompanyList = () => {
     });
   };
 
-  const onSubmit = ({ name, description, image }: AddCompanyForm) => {
-    console.log(name, description, image);
+  const onSubmit = (company: any) => {
+    dispatch(
+      companyStartUpdate(
+        { ...company, image: company.image[0] },
+        currentCompany?._id || ""
+      )
+    );
+    setModalState({ ...modalState, active: false });
   };
 
   // Effects
@@ -100,7 +105,7 @@ const CompanyList = () => {
                 }. ${company.name}`}</b>
                 <div>
                   <Button
-                    variant="info"
+                    variant="primary"
                     className="me-2"
                     onClick={() => handleEditClick(company)}
                   >
@@ -143,6 +148,19 @@ const CompanyList = () => {
                   defaultValue={currentCompany.name}
                 />
                 <span className="error-text">{errors?.name?.message}</span>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Short description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  {...register("shortDescription")}
+                  placeholder="Short description"
+                  rows={1}
+                  defaultValue={currentCompany.shortDescription}
+                />
+                <span className="error-text">
+                  {errors?.description?.message}
+                </span>
               </Form.Group>
               <Form.Group>
                 <Form.Label>Description</Form.Label>

@@ -2,18 +2,26 @@
 export enum CompanyTypes {
   SUCCESS_GET_COMPANY = "SUCCESS_GET_COMPANY",
   SUCCESS_GET_COMPANIES = "SUCCESS_GET_COMPANIES",
+  SUCCESS_UPDATE_COMPANY = "SUCCESS_UPDATE_COMPANY",
   COMPANY_FAILURE_ACTION = "COMPANY_FAILURE_ACTION",
   COMPANY_SET_LOADING = "COMPANY_SET_LOADING",
 }
 
 /** Company Types */
 export type CompanyType = {
-  id: string;
+  _id: string;
   name: string;
   shortDescription: string;
   description: string;
   image: Buffer;
   imageType: string;
+};
+
+export type CompanyAddType = {
+  name: string;
+  shortDescription: string;
+  description: string;
+  image: File;
 };
 
 /** State */
@@ -43,6 +51,11 @@ export interface ICompanyGetAll {
   };
 }
 
+export interface ICompanyUpdate {
+  type: CompanyTypes.SUCCESS_UPDATE_COMPANY;
+  payload: { company: CompanyType };
+}
+
 export interface ICompanyFailure {
   type: CompanyTypes.COMPANY_FAILURE_ACTION;
   payload: { error: string };
@@ -56,5 +69,6 @@ export interface ICompanyLoading {
 export type CompanyDispathTypes =
   | ICompanyGet
   | ICompanyGetAll
+  | ICompanyUpdate
   | ICompanyFailure
   | ICompanyLoading;
