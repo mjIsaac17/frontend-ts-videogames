@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
-import { ListGroup, Button, Modal, Form } from "react-bootstrap";
+import { ListGroup, Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { object, string } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { faTrashAlt, faEdit, faPlus } from "@fortawesome/free-solid-svg-icons";
 import {
   companyStartGettingAll,
   companyStartUpdate,
-  companySuccessGet,
+  companySetCurrent,
+  companyStartAdd,
 } from "../../state/action-creators/company.actions";
 import { RootStore } from "../../state/reducers/rootReducer";
 import LoaderSpinner from "../loader/LoaderSpinner";
 import CustomPagination from "../pagination/Pagination";
-import {
-  CompanyAddType,
-  CompanyType,
-} from "../../state/action-types/company.types";
-import { useForm } from "react-hook-form";
+import { CompanyType } from "../../state/action-types/company.types";
+import Fab from "../fab/Fab";
+import AddCompanyForm from "./AddCompanyForm";
 
 const CompanyList = () => {
   const dispatch = useDispatch();
@@ -37,20 +34,6 @@ const CompanyList = () => {
   const totalPages = companyState.totalPages || 0;
   const currentCompany = companyState.currentCompany;
 
-  const AddCompanySchema = object().shape({
-    name: string().required(),
-    shortDescription: string(),
-    description: string(),
-  });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CompanyAddType>({
-    resolver: yupResolver(AddCompanySchema),
-  });
-
   // Handler functions
   const handlePaginationClick = (newPage: number) => {
     dispatch(companyStartGettingAll(itemsPerPage, newPage));
@@ -61,7 +44,7 @@ const CompanyList = () => {
   };
 
   const handleEditClick = (company: CompanyType) => {
-    dispatch(companySuccessGet(company));
+    dispatch(companySetCurrent(company));
     setModalState({
       active: true,
       action: "Update",
@@ -69,13 +52,26 @@ const CompanyList = () => {
     });
   };
 
+  const handleAddClick = () => {
+    dispatch(companySetCurrent());
+    setModalState({
+      active: true,
+      action: "Add",
+      buttonStyle: "success",
+    });
+  };
+
   const onSubmit = (company: any) => {
-    dispatch(
-      companyStartUpdate(
-        { ...company, image: company.image[0] },
-        currentCompany?._id || ""
-      )
-    );
+    if (modalState.action === "Update")
+      dispatch(
+        companyStartUpdate(
+          { ...company, image: company.image[0] },
+          currentCompany?._id || ""
+        )
+      );
+    else if (modalState.action === "Add") {
+      dispatch(companyStartAdd({ ...company, image: company.image[0] }));
+    }
     setModalState({ ...modalState, active: false });
   };
 
@@ -120,6 +116,14 @@ const CompanyList = () => {
           ))}
         </ListGroup>
       </div>
+      <Fab
+        bgColor="#62C61E"
+        icon={faPlus}
+        iconColor="white"
+        hoverText="Add company"
+        position="bottom-right"
+        onClickFunction={handleAddClick}
+      />
       {totalPages > 1 && (
         <CustomPagination
           activePage={companyState.currentPage || 1}
@@ -128,82 +132,24 @@ const CompanyList = () => {
           handlePaginationClick={handlePaginationClick}
         />
       )}
-      {currentCompany && (
-        <Modal
-          backdrop="static"
-          centered
-          onHide={() => handleShowModal(false)}
-          show={modalState.active}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>{`${modalState.action} company`}</Modal.Title>
-          </Modal.Header>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Modal.Body>
-              <Form.Group>
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  {...register("name")}
-                  placeholder="Name"
-                  defaultValue={currentCompany.name}
-                />
-                <span className="error-text">{errors?.name?.message}</span>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Short description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  {...register("shortDescription")}
-                  placeholder="Short description"
-                  rows={1}
-                  defaultValue={currentCompany.shortDescription}
-                />
-                <span className="error-text">
-                  {errors?.description?.message}
-                </span>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  {...register("description")}
-                  placeholder="Description"
-                  rows={3}
-                  defaultValue={currentCompany.description}
-                />
-                <span className="error-text">
-                  {errors?.description?.message}
-                </span>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Current image</Form.Label>
-                <div className="d-flex justify-content-center">
-                  <img
-                    className="modal__img"
-                    src={`data:${currentCompany.imageType};base64,${currentCompany.image}`}
-                    alt={currentCompany.name}
-                  />
-                </div>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>New image</Form.Label>
-                <Form.Control type="file" {...register("image")} />
-              </Form.Group>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant="secondary"
-                onClick={() => handleShowModal(false)}
-              >
-                Close
-              </Button>
-              <Button variant={modalState.buttonStyle} type="submit">
-                {modalState.action}
-              </Button>
-            </Modal.Footer>
-          </Form>
-        </Modal>
-      )}
+
+      <Modal
+        backdrop="static"
+        centered
+        onHide={() => handleShowModal(false)}
+        show={modalState.active}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{`${modalState.action} company`}</Modal.Title>
+        </Modal.Header>
+        <AddCompanyForm
+          onSubmit={onSubmit}
+          handleShowModal={handleShowModal}
+          company={currentCompany}
+          buttonStyle={modalState.buttonStyle}
+          buttonText={modalState.action}
+        />
+      </Modal>
     </div>
   );
 };

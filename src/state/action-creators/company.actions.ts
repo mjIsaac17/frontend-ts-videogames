@@ -9,6 +9,7 @@ import {
   CompanyDispathTypes,
   CompanyType,
   CompanyTypes,
+  ICompanyAdd,
   ICompanyFailure,
   ICompanyLoading,
 } from "../action-types/company.types";
@@ -23,10 +24,15 @@ const setLoading = (loading: boolean): ICompanyLoading => ({
   payload: { loading },
 });
 
-export const companySuccessGet = (
-  company: CompanyType
+const companySuccessAdd = (company: CompanyType): ICompanyAdd => ({
+  type: CompanyTypes.COMPANY_SUCCESS_ADD,
+  payload: { company },
+});
+
+export const companySetCurrent = (
+  company?: CompanyType
 ): CompanyDispathTypes => ({
-  type: CompanyTypes.SUCCESS_GET_COMPANY,
+  type: CompanyTypes.COMPANY_SET_CURRENT,
   payload: { company },
 });
 
@@ -49,7 +55,7 @@ export const companyStartGet = (companyName: string) => {
       );
       toast.error(data.error);
     } else {
-      dispatch(companySuccessGet(data.company));
+      dispatch(companySetCurrent(data.company));
     }
     dispatch(setLoading(false));
   };
@@ -84,6 +90,30 @@ export const companyStartGettingAll = (limit?: number, page?: number) => {
       });
     }
     dispatch(setLoading(false));
+  };
+};
+
+export const companyStartAdd = (company: CompanyAddType) => {
+  return async (
+    dispatch: Dispatch<CompanyDispathTypes>,
+    getState: () => RootStore
+  ) => {
+    const { auth } = getState();
+    const { data } = await httpRequestToken(
+      "company",
+      "POST",
+      auth.auth?.authToken || "",
+      undefined,
+      company
+    );
+
+    if (data.error) {
+      dispatch(failureAction(data.error));
+      toast.error("An error ocurred when trying to add the company");
+    } else {
+      dispatch(companySuccessAdd(data.company));
+      toast.success("Company added");
+    }
   };
 };
 

@@ -1,6 +1,7 @@
 /** Company key types */
 export enum CompanyTypes {
-  SUCCESS_GET_COMPANY = "SUCCESS_GET_COMPANY",
+  COMPANY_SET_CURRENT = "COMPANY_SET_CURRENT",
+  COMPANY_SUCCESS_ADD = "COMPANY_SUCCESS_ADD",
   SUCCESS_GET_COMPANIES = "SUCCESS_GET_COMPANIES",
   SUCCESS_UPDATE_COMPANY = "SUCCESS_UPDATE_COMPANY",
   COMPANY_FAILURE_ACTION = "COMPANY_FAILURE_ACTION",
@@ -27,7 +28,7 @@ export type CompanyAddType = {
 /** State */
 export interface CompanyState {
   companies: CompanyType[];
-  currentCompany?: CompanyType;
+  currentCompany: CompanyType;
   currentPage?: number;
   loading: boolean;
   totalCompanies?: number;
@@ -36,9 +37,9 @@ export interface CompanyState {
 }
 
 /** Interfaces */
-export interface ICompanyGet {
-  type: CompanyTypes.SUCCESS_GET_COMPANY;
-  payload: { company: CompanyType };
+export interface ICompanySetCurrent {
+  type: CompanyTypes.COMPANY_SET_CURRENT;
+  payload: { company?: CompanyType };
 }
 
 export interface ICompanyGetAll {
@@ -49,6 +50,11 @@ export interface ICompanyGetAll {
     totalCompanies: number;
     totalPages: number;
   };
+}
+
+export interface ICompanyAdd {
+  type: CompanyTypes.COMPANY_SUCCESS_ADD;
+  payload: { company: CompanyType };
 }
 
 export interface ICompanyUpdate {
@@ -67,7 +73,8 @@ export interface ICompanyLoading {
 }
 
 export type CompanyDispathTypes =
-  | ICompanyGet
+  | ICompanySetCurrent
+  | ICompanyAdd
   | ICompanyGetAll
   | ICompanyUpdate
   | ICompanyFailure

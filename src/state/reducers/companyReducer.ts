@@ -5,6 +5,14 @@ import {
 } from "../action-types/company.types";
 
 const defaultState: CompanyState = {
+  currentCompany: {
+    _id: "",
+    name: "",
+    shortDescription: "",
+    description: "",
+    image: new Buffer(0),
+    imageType: "",
+  },
   loading: true,
   companies: [],
 };
@@ -14,10 +22,11 @@ const companyReducer = (
   action: CompanyDispathTypes
 ): CompanyState => {
   switch (action.type) {
-    case CompanyTypes.SUCCESS_GET_COMPANY:
+    case CompanyTypes.COMPANY_SET_CURRENT:
+      const company = action.payload.company;
       return {
         ...state,
-        currentCompany: action.payload.company,
+        currentCompany: company ? company : defaultState.currentCompany,
       };
 
     case CompanyTypes.SUCCESS_GET_COMPANIES:
@@ -39,10 +48,16 @@ const companyReducer = (
         ),
       };
 
+    case CompanyTypes.COMPANY_SUCCESS_ADD:
+      return {
+        ...state,
+        companies: [...state.companies, action.payload.company],
+      };
+
     case CompanyTypes.COMPANY_FAILURE_ACTION:
       return {
+        ...state,
         loading: false,
-        companies: [],
         error: action.payload.error,
       };
 

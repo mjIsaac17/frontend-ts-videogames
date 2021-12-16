@@ -19,9 +19,10 @@ const DashboardRouter = () => {
   return (
     <>
       <Fab
-        icon={faUndo}
         bgColor="#0699FF"
+        icon={faUndo}
         iconColor="white"
+        hoverText="Return"
         onClickFunction={handleFabClick}
       />
       <Routes>

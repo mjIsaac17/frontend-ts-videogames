@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
   companyStartGettingAll,
-  companySuccessGet,
+  companySetCurrent,
 } from "../../state/action-creators/company.actions";
 import { CompanyType } from "../../state/action-types/company.types";
 import { RootStore } from "../../state/reducers/rootReducer";
@@ -34,7 +34,7 @@ const CompanyScreen = () => {
   );
 
   const handleCompanyClick = (company: CompanyType) => {
-    dispatch(companySuccessGet(company));
+    dispatch(companySetCurrent(company));
     navigate(`/company/${company.name}`);
   };
 
