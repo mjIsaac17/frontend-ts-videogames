@@ -9,7 +9,7 @@ import NavBar from "../components/navbar/NavBar";
 import VideogameDetails from "../components/videogame/VideogameDetails";
 import VideogameScreen from "../components/videogame/VideogameScreen";
 import ConsoleDetails from "../components/console/ConsoleDetails";
-import CompanyList from "../components/admin/ManageCompany";
+import CompanyList from "../components/admin/company/ManageCompany";
 
 const DashboardRouter = () => {
   const navigate = useNavigate();

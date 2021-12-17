@@ -7,15 +7,15 @@ import {
   companySetCurrent,
   companyStartAdd,
   companyStartDelete,
-} from "../../state/action-creators/company.actions";
-import { RootStore } from "../../state/reducers/rootReducer";
-import LoaderSpinner from "../loader/LoaderSpinner";
-import CustomPagination from "../pagination/Pagination";
-import { CompanyType } from "../../state/action-types/company.types";
-import Fab from "../fab/Fab";
+} from "../../../state/action-creators/company.actions";
+import { RootStore } from "../../../state/reducers/rootReducer";
+import LoaderSpinner from "../../loader/LoaderSpinner";
+import CustomPagination from "../../pagination/Pagination";
+import { CompanyType } from "../../../state/action-types/company.types";
+import Fab from "../../fab/Fab";
 import AddCompanyForm from "./AddCompanyForm";
-import ConfirmationModal from "./ConfirmationModal";
-import ManageList from "./general/ManageList";
+import ConfirmationModal from "../general/ConfirmationModal";
+import ManageList from "../general/ManageList";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const CompanyList = () => {

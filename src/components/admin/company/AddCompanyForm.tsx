@@ -1,11 +1,12 @@
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+import { Button, Form, Modal } from "react-bootstrap";
 import {
   CompanyAddType,
   CompanyType,
-} from "../../state/action-types/company.types";
-import { Button, Form, Modal } from "react-bootstrap";
+} from "../../../state/action-types/company.types";
 
 const AddCompanySchema = object().shape({
   name: string().required(),
