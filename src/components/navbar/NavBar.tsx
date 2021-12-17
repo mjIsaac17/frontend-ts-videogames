@@ -48,8 +48,12 @@ const NavBar = () => {
               >
                 Video games
               </Link>
-              <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown title="Manage" id="collasible-nav-dropdown">
+                <NavDropdown.Item>
+                  <Link to="/admin/company" onClick={handleToggle}>
+                    Companies
+                  </Link>
+                </NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                   Another action
                 </NavDropdown.Item>

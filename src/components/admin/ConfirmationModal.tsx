@@ -20,7 +20,7 @@ const ConfirmationModal = ({
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => handleShowModal(false)}>
-          Close
+          Cancel
         </Button>
         <Button variant={buttonStyle} onClick={() => handleDelete()}>
           {buttonText}

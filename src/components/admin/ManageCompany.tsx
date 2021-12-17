@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { ListGroup, Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faEdit, faPlus } from "@fortawesome/free-solid-svg-icons";
 import {
   companyStartGettingAll,
   companyStartUpdate,
@@ -17,6 +15,8 @@ import { CompanyType } from "../../state/action-types/company.types";
 import Fab from "../fab/Fab";
 import AddCompanyForm from "./AddCompanyForm";
 import ConfirmationModal from "./ConfirmationModal";
+import ManageList from "./general/ManageList";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const CompanyList = () => {
   const dispatch = useDispatch();
@@ -95,44 +95,17 @@ const CompanyList = () => {
 
   return (
     <div className="container">
-      <h2>Manage companies</h2>
+      <p className="h2-title my-3">Manage companies</p>
       <div>
+        <h4>Total companies: {companyState.totalCompanies}</h4>
         {companyState.loading && (
           <LoaderSpinner loadingText="Loading companies" />
         )}
-        <ListGroup as="ol">
-          {companyState.companies.map(
-            (company, idx) =>
-              company.active && (
-                <ListGroup.Item as="li" key={company.name}>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <b>{`${
-                      companyState.currentPage === 1
-                        ? idx + 1
-                        : idx +
-                          1 +
-                          itemsPerPage * ((companyState.currentPage || 1) - 1)
-                    }. ${company.name}`}</b>
-                    <div>
-                      <Button
-                        variant="primary"
-                        className="me-2"
-                        onClick={() => showUpdateModal(company)}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => showDeleteModal(company)}
-                      >
-                        <FontAwesomeIcon icon={faTrashAlt} />
-                      </Button>
-                    </div>
-                  </div>
-                </ListGroup.Item>
-              )
-          )}
-        </ListGroup>
+        <ManageList
+          dataList={companyState.companies}
+          showDeleteModal={showDeleteModal}
+          showUpdateModal={showUpdateModal}
+        />
       </div>
       <Fab
         bgColor="#62C61E"

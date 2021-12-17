@@ -21,7 +21,7 @@ const CompanyScreen = () => {
   const companyState = useSelector((state: RootStore) => state.company);
 
   // local variables
-  const companiesPerPage = 2;
+  const companiesPerPage = 6;
   const maxPagesToShow = 4;
   const totalPages = companyState.totalPages || 0;
 
@@ -49,7 +49,7 @@ const CompanyScreen = () => {
   return (
     <div className="container-w95">
       <h3 className="h1-title">Company Home</h3>
-      <div className="card-list">
+      <div className="card-list flex-wrap">
         {companyState.loading && (
           <LoaderSpinner loadingText={"Loading companies..."} color="white" />
         )}
