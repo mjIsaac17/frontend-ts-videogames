@@ -8,6 +8,7 @@ import {
   companyStartUpdate,
   companySetCurrent,
   companyStartAdd,
+  companyStartDelete,
 } from "../../state/action-creators/company.actions";
 import { RootStore } from "../../state/reducers/rootReducer";
 import LoaderSpinner from "../loader/LoaderSpinner";
@@ -15,6 +16,7 @@ import CustomPagination from "../pagination/Pagination";
 import { CompanyType } from "../../state/action-types/company.types";
 import Fab from "../fab/Fab";
 import AddCompanyForm from "./AddCompanyForm";
+import ConfirmationModal from "./ConfirmationModal";
 
 const CompanyList = () => {
   const dispatch = useDispatch();
@@ -43,7 +45,7 @@ const CompanyList = () => {
     setModalState({ ...modalState, active });
   };
 
-  const handleEditClick = (company: CompanyType) => {
+  const showUpdateModal = (company: CompanyType) => {
     dispatch(companySetCurrent(company));
     setModalState({
       active: true,
@@ -52,13 +54,23 @@ const CompanyList = () => {
     });
   };
 
-  const handleAddClick = () => {
+  const showAddModal = () => {
     dispatch(companySetCurrent());
     setModalState({
       active: true,
       action: "Add",
       buttonStyle: "success",
     });
+  };
+
+  const showDeleteModal = (company: CompanyType) => {
+    dispatch(companySetCurrent(company));
+    setModalState({ ...modalState, active: true, action: "Delete" });
+  };
+
+  const handleDelete = () => {
+    dispatch(companyStartDelete(currentCompany._id));
+    setModalState({ ...modalState, active: false });
   };
 
   const onSubmit = (company: any) => {
@@ -89,31 +101,37 @@ const CompanyList = () => {
           <LoaderSpinner loadingText="Loading companies" />
         )}
         <ListGroup as="ol">
-          {companyState.companies.map((company, idx) => (
-            <ListGroup.Item as="li" key={company.name}>
-              <div className="d-flex justify-content-between align-items-center">
-                <b>{`${
-                  companyState.currentPage === 1
-                    ? idx + 1
-                    : idx +
-                      1 +
-                      itemsPerPage * ((companyState.currentPage || 1) - 1)
-                }. ${company.name}`}</b>
-                <div>
-                  <Button
-                    variant="primary"
-                    className="me-2"
-                    onClick={() => handleEditClick(company)}
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
-                  </Button>
-                  <Button variant="danger">
-                    <FontAwesomeIcon icon={faTrashAlt} />
-                  </Button>
-                </div>
-              </div>
-            </ListGroup.Item>
-          ))}
+          {companyState.companies.map(
+            (company, idx) =>
+              company.active && (
+                <ListGroup.Item as="li" key={company.name}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <b>{`${
+                      companyState.currentPage === 1
+                        ? idx + 1
+                        : idx +
+                          1 +
+                          itemsPerPage * ((companyState.currentPage || 1) - 1)
+                    }. ${company.name}`}</b>
+                    <div>
+                      <Button
+                        variant="primary"
+                        className="me-2"
+                        onClick={() => showUpdateModal(company)}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => showDeleteModal(company)}
+                      >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                      </Button>
+                    </div>
+                  </div>
+                </ListGroup.Item>
+              )
+          )}
         </ListGroup>
       </div>
       <Fab
@@ -122,7 +140,7 @@ const CompanyList = () => {
         iconColor="white"
         hoverText="Add company"
         position="bottom-right"
-        onClickFunction={handleAddClick}
+        onClickFunction={showAddModal}
       />
       {totalPages > 1 && (
         <CustomPagination
@@ -142,13 +160,21 @@ const CompanyList = () => {
         <Modal.Header closeButton>
           <Modal.Title>{`${modalState.action} company`}</Modal.Title>
         </Modal.Header>
-        <AddCompanyForm
-          onSubmit={onSubmit}
-          handleShowModal={handleShowModal}
-          company={currentCompany}
-          buttonStyle={modalState.buttonStyle}
-          buttonText={modalState.action}
-        />
+        {modalState.action !== "Delete" ? (
+          <AddCompanyForm
+            onSubmit={onSubmit}
+            handleShowModal={handleShowModal}
+            company={currentCompany}
+            buttonStyle={modalState.buttonStyle}
+            buttonText={modalState.action}
+          />
+        ) : (
+          <ConfirmationModal
+            handleDelete={handleDelete}
+            handleShowModal={handleShowModal}
+            confirmationMessage={`Are you sure you want to delete the company ${currentCompany.name}?`}
+          />
+        )}
       </Modal>
     </div>
   );

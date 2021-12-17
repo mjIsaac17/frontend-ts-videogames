@@ -68,16 +68,28 @@ const AddCompanyForm = ({
           <span className="error-text">{errors?.description?.message}</span>
         </Form.Group>
         {company.imageType !== "" && (
-          <Form.Group>
-            <Form.Label>Current image</Form.Label>
-            <div className="d-flex justify-content-center">
-              <img
-                className="modal__img"
-                src={`data:${company.imageType};base64,${company.image}`}
-                alt={company.name}
-              />
-            </div>
-          </Form.Group>
+          <>
+            <Form.Group className="mt-1">
+              <Form.Label>
+                Active:{" "}
+                <span
+                  className={company.active ? "text-success" : "text-danger"}
+                >
+                  {company.active ? "True" : "False"}
+                </span>
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Current image</Form.Label>
+              <div className="d-flex justify-content-center">
+                <img
+                  className="modal__img"
+                  src={`data:${company.imageType};base64,${company.image}`}
+                  alt={company.name}
+                />
+              </div>
+            </Form.Group>
+          </>
         )}
         <Form.Group>
           <Form.Label>New image</Form.Label>

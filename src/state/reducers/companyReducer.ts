@@ -12,6 +12,7 @@ const defaultState: CompanyState = {
     description: "",
     image: new Buffer(0),
     imageType: "",
+    active: false,
   },
   loading: true,
   companies: [],
@@ -52,6 +53,15 @@ const companyReducer = (
       return {
         ...state,
         companies: [...state.companies, action.payload.company],
+      };
+
+    case CompanyTypes.COMPANY_SUCCESS_DELETE:
+      const companyId = action.payload.companyId;
+      return {
+        ...state,
+        companies: state.companies.filter(
+          (company) => company._id !== companyId
+        ),
       };
 
     case CompanyTypes.COMPANY_FAILURE_ACTION:

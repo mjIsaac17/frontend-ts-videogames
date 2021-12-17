@@ -149,3 +149,28 @@ export const companyStartUpdate = (
     }
   };
 };
+
+export const companyStartDelete = (companyId: string) => {
+  return async (
+    dispatch: Dispatch<CompanyDispathTypes>,
+    getState: () => RootStore
+  ) => {
+    const { auth } = getState();
+    const { data } = await httpRequestToken(
+      `company/${companyId}`,
+      "DELETE",
+      auth.auth?.authToken || ""
+    );
+
+    if (data.error) {
+      dispatch(failureAction(data.error));
+      toast.error("An error ocurred when trying to delete the company");
+    } else {
+      dispatch({
+        type: CompanyTypes.COMPANY_SUCCESS_DELETE,
+        payload: { companyId },
+      });
+      toast.success("Company deleted");
+    }
+  };
+};
