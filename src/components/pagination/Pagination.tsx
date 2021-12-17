@@ -53,20 +53,22 @@ const CustomPagination = ({
 
   const loadPageItems = useCallback(
     (loadPagesFrom: number): void => {
-      const pageItemsProps = [] as Array<PageItemType>;
-      const remainingPages = totalPages - loadPagesFrom;
+      if (loadPagesFrom !== totalPages) {
+        const pageItemsProps = [] as Array<PageItemType>;
+        const remainingPages = totalPages - loadPagesFrom;
 
-      const nextMaxOfDisplayedPages =
-        remainingPages <= maxPagesToShow ? remainingPages : maxPagesToShow;
+        const nextMaxOfDisplayedPages =
+          remainingPages <= maxPagesToShow ? remainingPages : maxPagesToShow;
 
-      for (let i = 0; i < nextMaxOfDisplayedPages; i++) {
-        const nextPage = loadPagesFrom + i;
-        pageItemsProps.push({
-          key: `page-${nextPage}`,
-          pageNumber: nextPage,
-        });
+        for (let i = 0; i < nextMaxOfDisplayedPages; i++) {
+          const nextPage = loadPagesFrom + i;
+          pageItemsProps.push({
+            key: `page-${nextPage}`,
+            pageNumber: nextPage,
+          });
+        }
+        setPageItems(pageItemsProps);
       }
-      setPageItems(pageItemsProps);
     },
     [maxPagesToShow, totalPages]
   );
